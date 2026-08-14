@@ -108,27 +108,63 @@ Together, these mechanisms make the environment more than a fixed-agent RL bench
 ## Repository
 
 ```
-experiments/
-├── compare_rl.py
-├── test_env.py
-├── test_mc.py
-├── test_rl.py
-├── train_mc.py
-├── train_multi.py
-├── train_q.py
+Decoy/
 │
-└── analysis/
-    ├── check_adaptive_alpha.py
-    ├── plot_multi.py
-    ├── plot_rl.py
-    ├── run_multi_sweep.py
-    ├── run_rl_sweep.py
-    ├── style.py
-    └── results/
-        ├── multi_learning_curve.csv
-        ├── multi_summary.csv
-        ├── rl_learning_curve.csv
-        └── trickster_register.csv
+├── README.md
+├── arch.png
+├── requirements.txt
+├── pytest.ini
+├── LICENSE
+├── decoy/
+│  ├── agent.py
+│  ├── environment.py
+│  ├── episode.py
+│  ├── monte_carlo.py
+│  ├──  multi_runner.py
+│  ├──  multi_training.py
+│  ├──  ou_process.py
+│  ├──  q_learning.py
+│  ├──  runner.py
+│  ├── toy_env.py
+│  ├──  training.py
+│  ├──  win_register.py
+│
+├── experiments/
+│   ├── compare_rl.py
+│   ├── test_env.py
+│   ├── test_mc.py
+│   ├── test_rl.py
+│   ├── train_mc.py
+│   ├── train_multi.py
+│   ├── train_q.py
+│   │
+│   └── analysis/
+│       ├── check_adaptive_alpha.py
+│       ├── plot_multi.py
+│       ├── plot_rl.py
+│       ├── run_multi_sweep.py
+│       ├── run_rl_sweep.py
+│       ├── style.py
+│       │
+│       └── results/
+│           ├── multi_summary.csv
+│           ├── rl_learning_curve.csv
+│           └── trickster_register.csv
+│
+├── tests/
+│   ├── test_environment.py
+│   ├── test_monte_carlo.py
+│   ├── test_multi_runner.py
+│   ├── test_multi_training.py
+│   ├── test_ou.py
+│   ├── test_q_learning.py
+│   ├── test_runner.py
+│   ├── test_training.py
+│   └── test_win_register.py
+│
+├── figures/
+│
+└── multifigures/
 ```
 
 ## Small Literature / Learning Note
