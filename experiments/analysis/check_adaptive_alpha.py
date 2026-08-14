@@ -11,7 +11,6 @@ MAX_STEPS = 20
 
 
 def q_table_difference(q_a, q_b):
-    """Compare two Q-tables over their shared states."""
 
     shared_states = set(q_a) & set(q_b)
 
@@ -47,7 +46,6 @@ def q_table_difference(q_a, q_b):
 
 
 def policy_disagreement(q_a, q_b):
-    """Measure disagreement between greedy policies."""
 
     shared_states = set(q_a) & set(q_b)
 
@@ -77,7 +75,6 @@ def policy_disagreement(q_a, q_b):
 
 
 def trajectory_difference(hist_a, hist_b):
-    """Compare episode-level outcomes and summary behavior."""
 
     n = min(len(hist_a), len(hist_b))
 
@@ -138,7 +135,6 @@ def main():
     for seed in SEEDS:
         print(f"SEED {seed}")
         print("-" * 72)
-
         fixed = run_condition(
             seed,
             adaptive=False,
@@ -158,10 +154,7 @@ def main():
         fixed_summ = fixed[4]
         adaptive_summ = adaptive[4]
 
-        # --------------------------------------------------
-        # 1. Final alpha
-        # --------------------------------------------------
-
+    
         print("Alpha:")
         print(
             f"  fixed:    {fixed_inv.alpha:.6f}"
@@ -169,33 +162,20 @@ def main():
         print(
             f"  adaptive: {adaptive_inv.alpha:.6f}"
         )
-
-        # --------------------------------------------------
-        # 2. Performance
-        # --------------------------------------------------
-
         print()
         print("Performance:")
-
         print(
             f"  fixed reward:    "
             f"{fixed_summ['inv_rew']:.6f}"
         )
-
         print(
             f"  adaptive reward: "
             f"{adaptive_summ['inv_rew']:.6f}"
         )
-
         print(
             f"  reward delta:    "
             f"{adaptive_summ['inv_rew'] - fixed_summ['inv_rew']:.6f}"
         )
-
-        # --------------------------------------------------
-        # 3. Q-table difference
-        # --------------------------------------------------
-
         q_diff = q_table_difference(
             fixed_inv.q,
             adaptive_inv.q,
@@ -219,11 +199,6 @@ def main():
             f"  max difference:   "
             f"{q_diff['max_difference']:.12g}"
         )
-
-        # --------------------------------------------------
-        # 4. Greedy policy difference
-        # --------------------------------------------------
-
         policy_diff = policy_disagreement(
             fixed_inv.q,
             adaptive_inv.q,
@@ -243,11 +218,6 @@ def main():
             f"  disagreement:    "
             f"{policy_diff['disagreement_rate']:.6%}"
         )
-
-        # --------------------------------------------------
-        # 5. Actual trajectory difference
-        # --------------------------------------------------
-
         trajectory_diff = trajectory_difference(
             fixed_hist,
             adaptive_hist,
