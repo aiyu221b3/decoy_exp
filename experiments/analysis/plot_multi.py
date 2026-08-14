@@ -8,11 +8,6 @@ import matplotlib.colors as mcolors
 from matplotlib.lines import Line2D
 from matplotlib.colors import LinearSegmentedColormap
 
-
-# ============================================================
-# PATHS
-# ============================================================
-
 BASE = Path(__file__).resolve().parents[2]
 
 RESULTS = BASE / "results"
@@ -23,10 +18,6 @@ OUT.mkdir(
     exist_ok=True,
 )
 
-
-# ============================================================
-# RESULT FILE DISCOVERY
-# ============================================================
 
 def find_result(candidates):
     """
@@ -96,10 +87,6 @@ REGISTER = find_result([
 ])
 
 
-# ============================================================
-# LOAD DATA
-# ============================================================
-
 print("=" * 72)
 print("MULTI-AGENT PLOT GENERATION")
 print("=" * 72)
@@ -118,10 +105,6 @@ print(f"  learning rows : {len(df):,}")
 print(f"  summary rows  : {len(summary):,}")
 print(f"  register rows : {len(register):,}")
 
-
-# ============================================================
-# STYLE
-# ============================================================
 
 CREAM = "#FBF8F3"
 WHITE = "#FFFFFF"
@@ -157,9 +140,6 @@ LAV_MAP = LinearSegmentedColormap.from_list(
 )
 
 
-# ------------------------------------------------------------
-# Typography
-# ------------------------------------------------------------
 def format_budget_axis(ax, budgets):
     """Format joint-training budgets as clean linear x-axis labels."""
     budgets = sorted(budgets)
@@ -179,7 +159,6 @@ def format_budget_axis(ax, budgets):
 plt.rcParams.update({
     "font.family": "cmr10",
 
-    # Math uses Computer Modern.
     "mathtext.fontset": "cm",
     "mathtext.default": "regular",
 
@@ -212,10 +191,6 @@ plt.rcParams.update({
     "axes.unicode_minus": False,
 })
 
-
-# ============================================================
-# HELPERS
-# ============================================================
 
 def finish_axis(ax):
     """
@@ -461,9 +436,6 @@ def gradient_color(value, low, high):
     return rgb
 
 
-# ============================================================
-# 1. JOINT-TRAINING LEARNING TRAJECTORIES
-# ============================================================
 
 print("\n[1/10] Joint-training learning trajectories")
 
@@ -647,9 +619,6 @@ save_figure(
 )
 
 
-# ============================================================
-# 2. DETECTION OVERVIEW
-# ============================================================
 
 print("\n[2/10] Detection overview")
 
@@ -679,9 +648,7 @@ fig, axes = plt.subplots(
     sharey=True,
 )
 
-# IMPORTANT:
-# Reserve a large header region so the title/subtitle
-# cannot overlap the subplot titles.
+
 fig.subplots_adjust(
     left=0.075,
     right=0.985,
@@ -785,11 +752,6 @@ save_figure(
     fig,
     "multi_detection_overview",
 )
-
-
-# ============================================================
-# 3. EPISODE OUTCOME COMPOSITION
-# ============================================================
 
 print("\n[3/10] Episode outcome composition")
 
@@ -922,10 +884,6 @@ save_figure(
 )
 
 
-# ============================================================
-# 4. BEHAVIOURAL FINGERPRINT
-# ============================================================
-
 print("\n[4/10] Behavioural fingerprint")
 
 behavior = [
@@ -1056,9 +1014,6 @@ save_figure(
 )
 
 
-# ============================================================
-# 5. BEHAVIOUR HEATMAP
-# ============================================================
 
 print("\n[5/10] Behaviour heatmap")
 
@@ -1228,9 +1183,6 @@ save_figure(
 )
 
 
-# ============================================================
-# 6. REWARD DENSITY
-# ============================================================
 
 print("\n[6/10] Reward density")
 
@@ -1374,10 +1326,6 @@ save_figure(
 )
 
 
-# ============================================================
-# 7. SEED VARIABILITY
-# ============================================================
-
 print("\n[7/10] Seed variability")
 
 fig, ax = plt.subplots(
@@ -1493,11 +1441,6 @@ save_figure(
     fig,
     "multi_reward_seed_variability",
 )
-
-
-# ============================================================
-# 8. TRICKSTER WIN-REGISTER SIGNAL
-# ============================================================
 
 print("\n[8/10] Trickster win-register signal")
 
@@ -1683,9 +1626,6 @@ save_figure(
 )
 
 
-# ============================================================
-# 9. REWARD VS FRAUDSTER DETECTION
-# ============================================================
 
 print("\n[9/10] Reward vs fraudster detection")
 
@@ -1795,10 +1735,6 @@ save_figure(
     "multi_reward_vs_detection",
 )
 
-
-# ============================================================
-# 10. JOINT-TRAINING SUMMARY HEATMAP
-# ============================================================
 
 print("\n[10/10] Joint-training summary heatmap")
 
@@ -1978,9 +1914,6 @@ save_figure(
 )
 
 
-# ============================================================
-# MANIFEST + ZIP
-# ============================================================
 
 print("\nCreating archive...")
 
