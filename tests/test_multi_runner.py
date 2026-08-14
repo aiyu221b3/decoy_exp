@@ -116,7 +116,7 @@ def test_trick_agent_commits_to_predicted_faction():
     )
     state = (0, 0, 0, 2, -1, -1)
     social.q[state][:] = 0.0
-    # Investigator side:
+    # inv sidee
     # support/defend trader 0, accuse trader 1.
     social.q[state][social_actions.index(
         (StatType.DEFEND, 0)
