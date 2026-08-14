@@ -107,7 +107,29 @@ Together, these mechanisms make the environment more than a fixed-agent RL bench
 
 ## Repository
 
-The root contains the environment and learning code. `experiments/` contains training and analysis scripts, `experiments/analysis/results/` contains the final CSV results, `tests/` contains component tests, and `figures/` / `multifigures/` contain the final visualisations.
+```
+experiments/
+├── compare_rl.py
+├── test_env.py
+├── test_mc.py
+├── test_rl.py
+├── train_mc.py
+├── train_multi.py
+├── train_q.py
+│
+└── analysis/
+    ├── check_adaptive_alpha.py
+    ├── plot_multi.py
+    ├── plot_rl.py
+    ├── run_multi_sweep.py
+    ├── run_rl_sweep.py
+    ├── style.py
+    └── results/
+        ├── multi_learning_curve.csv
+        ├── multi_summary.csv
+        ├── rl_learning_curve.csv
+        └── trickster_register.csv
+```
 
 ## Small Literature / Learning Note
 
