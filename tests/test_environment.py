@@ -19,7 +19,7 @@ def make_env(budget=5, max_steps=4):
     )
     env.reset()
 
-    # Fix roles so the episode outcome is deterministic.
+    # need detr. outcome
     env.roles = {
         0: Role.INNOCENT,
         1: Role.FRAUDSTER,
@@ -220,7 +220,6 @@ def test_trd_q_state_is_role_blind():
     env_a.step(actions)
     env_b.step(actions)
 
-    # Same observable history, different hidden-role assignment.
     env_b.roles = {
         0: Role.FRAUDSTER,
         1: Role.TRICKSTER,
