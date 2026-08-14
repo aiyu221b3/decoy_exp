@@ -6,33 +6,23 @@ import matplotlib.font_manager as fm
 from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.collections import LineCollection
 
-# ============================================================
-# Paths
-# ============================================================
-
 HERE = Path(__file__).resolve().parent
 RESULTS = HERE / "results"
 FIGURES = HERE.parents[1] / "figures"
 FIGURES.mkdir(parents=True, exist_ok=True)
 
-# ============================================================
-# Project-local fonts
-# ============================================================
 
 FONT_DIR = HERE.parents[1] / "fonts"
 for font_path in FONT_DIR.glob("*.ttf"):
     fm.fontManager.addfont(font_path)
 
-# ============================================================
-# Visual language
-# ============================================================
 
 CREAM = "#FBF8F3"
 INK = "#493F48"
 GRID = "#D8D0C6"
 MUTED = "#817782"
 
-# Pastel, high-contrast-enough colors.
+
 LAVENDER = "#9C8CC4"
 PERIWINKLE = "#91B7D8"
 ROSE = "#D895A0"
@@ -58,9 +48,7 @@ METRIC_COLORS = {
     "Timeout": PEACH,
 }
 
-# Computer Modern / CMR10 typography, matching the reference figure.
-# CMR10 is compact, elegant, and gives the labels/title the same visual
-# character as the supplied reference without requiring LaTeX.
+
 plt.rcParams.update({
     "font.family": "cmr10",
     "font.size": 10.5,
@@ -100,9 +88,7 @@ plt.rcParams.update({
 })
 
 
-# ============================================================
-# Data
-# ============================================================
+
 
 def load_data():
     path = RESULTS / "rl_learning_curve.csv"
@@ -214,9 +200,7 @@ def gradient_band(ax, x, lower, upper, cmap, alpha=0.16, zorder=1):
         )
 
 
-# ============================================================
-# Figure helpers
-# ============================================================
+
 
 def finish_axis(ax, *, xgrid=False):
     ax.spines["top"].set_visible(False)
@@ -283,9 +267,7 @@ def style_legend(ax, loc="upper right", **kwargs):
 
     return legend
 
-# ============================================================
-# Core learning curves
-# ============================================================
+
 
 def plot_metric(df, metric, title, ylabel, filename, *, ylim=None, log_x=True):
     stats = aggregate(df, metric)
@@ -409,9 +391,6 @@ def plot_detection_overview(df):
     fig.tight_layout(rect=(0, 0, 1, 0.84))
     save_figure(fig, "rl_detection_overview")
 
-# ============================================================
-# Heatmaps
-# ============================================================
 
 def heatmap_matrix(df, metric, algorithm=None):
     sub = df if algorithm is None else df[df["algorithm"] == algorithm]
@@ -465,9 +444,6 @@ def plot_reward_heatmap(df):
 def plot_detection_heatmap(df):
     plot_training_heatmap(df, "fraudster_catch_rate", "Fraudster detection landscape", "rl_detection_heatmap", vmin=0, vmax=1, fmt=".2f", cmap_colors=["#FFF5F1", "#F3C2B6", CORAL])
 
-# ============================================================
-# Seed distributions / density
-# ============================================================
 
 def kde_curve(values, grid):
     values = np.asarray(values, dtype=float)
@@ -541,9 +517,6 @@ def plot_reward_seed_strip(df):
     fig.tight_layout()
     save_figure(fig, "rl_reward_seed_variability")
 
-# ============================================================
-# Behavioural fingerprint heatmap
-# ============================================================
 
 def plot_behavior_heatmap(df):
     metrics = {
@@ -591,9 +564,6 @@ def plot_behavior_heatmap(df):
     fig.tight_layout()
     save_figure(fig, "rl_behavior_heatmap")
 
-# ============================================================
-# Correlation matrix
-# ============================================================
 
 def plot_correlation_heatmap(df):
     cols = [
@@ -635,9 +605,6 @@ def plot_correlation_heatmap(df):
     fig.tight_layout()
     save_figure(fig, "rl_metric_correlation")
 
-# ============================================================
-# Reward vs detection
-# ============================================================
 
 def plot_reward_vs_detection(df):
     fig, ax = plt.subplots(figsize=(8.5, 5.6))
@@ -664,10 +631,6 @@ def plot_reward_vs_detection(df):
     style_legend(ax, loc="upper right")
     fig.tight_layout()
     save_figure(fig, "rl_reward_vs_detection")
-
-# ============================================================
-# Main
-# ============================================================
 
 def main():
     print("\nLoading RL results...")
