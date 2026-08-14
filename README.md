@@ -1,4 +1,4 @@
-# Decoy Effect
+# Decoy 
 
 > A compact, interpretable multi-agent reinforcement-learning environment for hidden-role strategic learning under noisy financial observations and socially reactive behaviour.
 
@@ -6,7 +6,7 @@
 
 A certain company's stock was going up the graph for a long time, making people buy it. However, one morning they woke up to their worst nightmare. The stock drops, then drops a little more, and on until it reaches a point that they've amassed a huge loss. What happened? *There's a financial fraud in the city.*
 
-The police has hired an investigator to find out who caused this mess before they cause more disruption in the market.
+The police have hired an investigator to find out who caused this mess before they cause more disruption in the market.
 
 ## What This Models
 
@@ -179,7 +179,7 @@ These were learning references for building the environment, not intended as a f
 
 ## Limitations
 
-Decoy is deliberately small. The Investigator currently has limited reasoning capacity, the financial dynamics are simplified, and the learning is tabular. The goal is not to solve deception or MARL, but to provide a controlled environment where learning dynamics can be inspected.
+Decoy is deliberately small. The Investigator currently has limited reasoning capacity, the financial dynamics are simplified, and the learning is tabular. The goal is not to solve deception or MARL, but to provide a controlled environment where learning dynamics can be inspected.`multi_learning_curve.csv` couldn't be added since the file is too big.
 
 ## Future Scope
 
