@@ -1,3 +1,5 @@
+Paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7345498
+The repo will (is yet to) be updated with the version used in the paper.
 # Decoy 
 
 > A compact, interpretable multi-agent reinforcement-learning environment for hidden-role strategic learning under noisy financial observations and socially reactive behaviour.
