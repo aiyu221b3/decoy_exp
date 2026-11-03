@@ -209,12 +209,6 @@ Evaluated over $2,000$ greedy episodes ($\epsilon = 0$) per seed across $3$ seed
 | **Tabular Q-Learning** | $74.8 \pm 0.9\%$ | $6.50 \pm 0.10$ | $98.4 \pm 0.3\%$ | $9.81 \pm 0.04$ |
 | **Monte Carlo** | $58.6 \pm 3.4\%$ | $4.20 \pm 0.47$ | $98.7 \pm 0.1\%$ | $9.84 \pm 0.01$ |
 
-<p align="center">
-  <img src="./figures/fig2_frozen_convergence.png" alt="Frozen-opponent learning across training budgets" width="75%">
-  <br>
-  <em><b>Figure 2:</b> Frozen-opponent learning trajectories (Mean evaluation reward & Fraudster detection rate) across training budgets for tabular Q-learning and Monte Carlo (±1 SD across 3 seeds).</em>
-</p>
-
 ### 5.2 Joint-Training Co-Adaptation Sweep ($3$-Seed Means)
 To isolate terminal identification accuracy from timeout avoidance, the **conditional Fraudster identification rate** is defined over non-timeout episodes:
 
@@ -229,12 +223,6 @@ P(F \mid \text{no timeout}) = \frac{N_F}{N_F + N_I + N_T}
 | **$250\text{k}$** | $-0.082$ | $25.2\%$ | $16.6\%$ | $17.8\%$ | $40.4\%$ | **$42.3\%$** |
 | **$500\text{k}$** | $+0.629$ | $29.2\%$ | $14.1\%$ | $15.9\%$ | $40.8\%$ | **$49.3\%$** |
 
-<p align="center">
-  <img src="./figures/fig3_joint_trajectories.png" alt="Joint-training reward trajectories" width="75%">
-  <br>
-  <em><b>Figure 3:</b> Rolling Investigator reward trajectories across 50k, 100k, 250k, and 500k joint-training sweeps (±1 SD across 3 seeds).</em>
-</p>
-
 ### 5.3 Behavioural & Trickster Dynamics ($50\text{k} \rightarrow 500\text{k}$ Joint Training)
 
 | Metric Category | Metric | @ $50\text{k}$ Episodes | @ $500\text{k}$ Episodes | Strategic Shift |
@@ -246,11 +234,6 @@ P(F \mid \text{no timeout}) = \frac{N_F}{N_F + N_I + N_T}
 | **Trickster WinRegister** | All-History $I$ Win Prob ($p_{\text{all}}$) | $55.4\%$ | $67.5\%$ | Tracks declining false catches |
 | **Trickster WinRegister** | Recent-Window $I$ Win Prob ($p_{\text{recent}}$) | $58.1\%$ | $75.2\%$ | Rapid adaptation to $I$ accuracy |
 | **Trickster WinRegister** | Prediction Confidence ($p_{\hat{w}}$) | $57.1\%$ | $72.5\%$ | Exceeds $p_{\text{min}} = 0.60$ threshold |
-
-| Behavioural Fingerprint (Fig. 4) | Trickster WinRegister Signal (Fig. 5) |
-| :---: | :---: |
-| <img src="./figures/fig4_behavioural_fingerprint.png" alt="Behavioural fingerprint of joint training" width="100%"> | <img src="./figures/fig5_winregister.png" alt="Trickster WinRegister dynamics" width="100%"> |
-| *Shift toward higher accusations, fewer passive observations, and longer episodes ($50\text{k} \rightarrow 500\text{k}$).* | *All-history ($p_{\text{all}}$), recent-window ($p_{\text{recent}}$), and confidence ($p_{\hat{w}}$) trajectories.* |
 
 ### 5.4 Cross-Evaluation Diagnostics ($10\text{k}$ Episodes, $3$-Seed Means)
 
