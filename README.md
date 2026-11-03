@@ -6,42 +6,20 @@ A compact, interpretable multi-agent reinforcement learning environment
 built around a financial fraud investigation game. Four agents interact
 under partial observability, stochastic market dynamics, strategic
 deception and a limited investigation budget.
+> [!IMPORTANT]
+> **Project status and research versions**
+>
+> This repository contains the **original Decoy project implementation**. The work subsequently developed through two research versions:
+>
+> **V1 research version.** The original project was developed into a first research version, which is the version associated with the paper [*Decoy: Multi-Agent Environment for Hidden-Role Strategic Learning*](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7345498). The full V1 experimental outputs, approximately 12.64 GB uncompressed and covering the Q-learning/Monte Carlo sweeps and joint-training experiments, are archived in the [Decoy Results Dataset on Kaggle](https://www.kaggle.com/datasets/ayushibhattacharya/all-decoy-outputs-v1). The paper's results belong to this V1 research version.
+>
+> **V2 research version.** A new V2 version of the research described in the SSRN paper is currently in progress. It involves further development of the implementation and experiments. Some newer components, experiment files and results are therefore not part of this repository because they belong to the ongoing V2 work.
+>
+> **Results distinction:** The tables and figures below document experiments from the original implementation in this repository. They are **not the results reported in the V1 SSRN paper**, and they should not be cited as such. For V1 research results, use the [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7345498) and its [Kaggle experimental archive](https://www.kaggle.com/datasets/ayushibhattacharya/all-decoy-outputs-v1). V2 results are part of the ongoing research.
 
-> \[!IMPORTANT\] **Project status and research versions**
->
-> This repository contains the **original Decoy project
-> implementation**. The work subsequently developed through two research
-> versions:
->
-> **V1 research version.** The original project was developed into a
-> first research version, which is the version associated with the paper
-> [*Decoy: Multi-Agent Environment for Hidden-Role Strategic
-> Learning*](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7345498).
-> The full V1 experimental outputs, approximately 12.64 GB uncompressed
-> and covering the Q-learning/Monte Carlo sweeps and joint-training
-> experiments, are archived in the [Decoy Results Dataset on
-> Kaggle](https://www.kaggle.com/datasets/ayushibhattacharya/all-decoy-outputs-v1).
-> The paper's results belong to this V1 research version.
->
-> **V2 research version.** A new V2 version of the research described in
-> the SSRN paper is currently in progress. It involves further
-> development of the implementation and experiments. Some newer
-> components, experiment files and results are therefore not part of
-> this repository because they belong to the ongoing V2 work.
->
-> **Results distinction:** The tables and figures below document
-> experiments from the original implementation in this repository. They
-> are **not the results reported in the V1 SSRN paper**, and they should
-> not be cited as such. For V1 research results, use the
-> [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7345498)
-> and its [Kaggle experimental
-> archive](https://www.kaggle.com/datasets/ayushibhattacharya/all-decoy-outputs-v1).
-> V2 results are part of the ongoing research.
+Questions or want to discuss the environment and its results? Reach me at [aiyu221b3@gmail.com](mailto:aiyu221b3@gmail.com).
 
-Questions or want to discuss the environment and its results? Reach me
-at <aiyu221b3@gmail.com>.
-
-------------------------------------------------------------------------
+---
 
 ## The Environment
 
