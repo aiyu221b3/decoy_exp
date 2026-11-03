@@ -15,7 +15,7 @@ Each episode consists of four agents: an Investigator ($I$) and three Traders ($
 \mathcal{G} = \{I, T_1, T_2, T_3\}
 ```
 
-At the start of each episode, the three hidden roles—**Innocent**, **Fraudster**, and **Trickster**—are randomly permuted and assigned to the trader identities $\mathcal{T}$ so role identity cannot be inferred from a fixed player index. Role-conditioned learners are selected externally while excluding the explicit role label from each learner's state representation.
+At the start of each episode, the three hidden roles **Innocent**, **Fraudster**, and **Trickster** are randomly permuted and assigned to the trader identities $\mathcal{T}$ so role identity cannot be inferred from a fixed player index. Role-conditioned learners are selected externally while excluding the explicit role label from each learner's state representation.
 
 ### Episode Interaction Loop
 
