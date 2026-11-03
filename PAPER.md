@@ -223,17 +223,6 @@ P(F \mid \text{no timeout}) = \frac{N_F}{N_F + N_I + N_T}
 | **$250\text{k}$** | $-0.082$ | $25.2\%$ | $16.6\%$ | $17.8\%$ | $40.4\%$ | **$42.3\%$** |
 | **$500\text{k}$** | $+0.629$ | $29.2\%$ | $14.1\%$ | $15.9\%$ | $40.8\%$ | **$49.3\%$** |
 
-```mermaid
-xychart-beta
-    title "Joint-Training Dynamics Across Episode Budgets (50k to 500k)"
-    x-axis ["50k", "100k", "250k", "500k"]
-    y-axis "Percentage (%)" 0 --> 60
-    bar [26.0, 25.5, 25.2, 29.2]
-    bar [31.7, 35.3, 40.4, 40.8]
-    line [38.1, 39.4, 42.3, 49.3]
-```
-> **Chart Legend:** **First Bar:** Overall Fraudster Detection (`26.0%` &rarr; `29.2%`) | **Second Bar:** Timeout Rate (`31.7%` &rarr; `40.8%`) | **Line:** Conditional Fraudster Identification $`P(F \mid \text{no timeout})`$ (`38.1%` &rarr; `49.3%`).
-
 ### 5.3 Behavioural & Trickster Dynamics ($50\text{k} \rightarrow 500\text{k}$ Joint Training)
 
 | Metric Category | Metric | @ $50\text{k}$ Episodes | @ $500\text{k}$ Episodes | Strategic Shift |
