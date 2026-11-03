@@ -1,46 +1,95 @@
-> ## 📌 Repository status
-> This repository holds the **original implementation of Decoy**, the environment and
-> code from the earlier development stage, *before* the write-up of the paper
-> ["Decoy: Multi-Agent Environment for Hidden-Role Strategic Learning"](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7345498).
+# Decoy
+
+### Multi-Agent Reinforcement Learning for Hidden-Role Strategic Learning
+
+A compact, interpretable multi-agent reinforcement learning environment built around a financial fraud investigation game. Four agents interact under partial observability, stochastic market dynamics, strategic deception and a limited investigation budget.
+
+> [!IMPORTANT]
+> **Project status and research versions**
 >
-> - 📊 **Full experimental results:** the complete run outputs (~12.64 GB uncompressed, covering the
->   Q-learning / Monte Carlo sweeps and the joint-training experiments) are published as a
->   Kaggle dataset: **[Decoy Results Dataset](https://www.kaggle.com/datasets/ayushibhattacharya/all-decoy-outputs-v1)**
-> - 🔧 **Rebuild in progress:** I'm currently redesigning Decoy from scratch with an
->   extended research plan, so the code here is a snapshot rather than the final
->   codebase. A cleaner, fully reproducible version will replace it. However, most of the code here is architecturally same. Just the Kaggle run files are absent.
+> This repository contains the **original Decoy project implementation**. The work subsequently developed through two research versions:
 >
-> Questions or want to dig into the results? Reach me at aiyu221b3@gmail.com.
+> **V1 research version.** The original project was developed into a first research version, which is the version associated with the paper [*Decoy: Multi-Agent Environment for Hidden-Role Strategic Learning*](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7345498). The full V1 experimental outputs, approximately 12.64 GB uncompressed and covering the Q-learning/Monte Carlo sweeps and joint-training experiments, are archived in the [Decoy Results Dataset on Kaggle](https://www.kaggle.com/datasets/ayushibhattacharya/all-decoy-outputs-v1). The paper's results belong to this V1 research version.
+>
+> **V2 research version.** A new V2 version of the research described in the SSRN paper is currently in progress. It involves further development of the implementation and experiments. Some newer components, experiment files and results are therefore not part of this repository because they belong to the ongoing V2 work.
+>
+> **Results distinction:** The tables and figures below document experiments from the original implementation in this repository. They are **not the results reported in the V1 SSRN paper**, and they should not be cited as such. For V1 research results, use the [paper](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7345498) and its [Kaggle experimental archive](https://www.kaggle.com/datasets/ayushibhattacharya/all-decoy-outputs-v1). V2 results are part of the ongoing research.
 
-# Decoy 
+Questions or want to discuss the environment and its results? Reach me at [aiyu221b3@gmail.com](mailto:aiyu221b3@gmail.com).
 
-> A compact, interpretable multi-agent reinforcement-learning environment for hidden-role strategic learning under noisy financial observations and socially reactive behaviour.
+---
 
-## Storyline
+## The Environment
 
-A certain company's stock was going up the graph for a long time, making people buy it. However, one morning they woke up to their worst nightmare. The stock drops, then drops a little more, and on until it reaches a point that they've amassed a huge loss. What happened? *There's a financial fraud in the city.*
+A company's stock has been rising for a long time. Investors keep buying, confidence is high, and the market looks healthy. Then one morning the stock starts to collapse. Losses accumulate, and evidence of financial fraud begins to emerge.
 
-The police have hired an investigator to find out who caused this mess before they cause more disruption in the market.
+The police bring in an investigator to identify the person responsible before the situation gets worse. The catch is that the investigator cannot directly observe the other agents' roles. It has to reason from noisy financial observations, social behaviour and incomplete evidence, while working with a finite investigation budget.
 
-## What This Models
+Decoy models this as a small hidden-role financial and social-deduction game. Its four agents are the **Investigator**, **Innocent**, **Fraudster** and **Trickster**.
 
-Decoy is a small controlled MARL environment built around a hidden-role financial/social-deduction game. Four agents participate: an **Investigator**, **Innocent**, **Fraudster**, and **Trickster**. The Investigator cannot directly observe trader roles and instead reasons from noisy financial observations, social behaviour and a finite investigation budget.
+| Agent | Role in the environment |
+|:--|:--|
+| **Investigator** | Identifies the Fraudster through observation, focus, accusation and voting. |
+| **Innocent** | Provides a non-malicious trader baseline. |
+| **Fraudster** | Attempts to avoid detection while pursuing its own objective. |
+| **Trickster** | Adds a strategically reactive role with an outcome-history signal. |
 
-The environment combines partial observability, stochastic financial dynamics, strategic deception and social interaction. Market dynamics use an Ornstein-Uhlenbeck process, while agents learn through tabular Q-learning and Monte Carlo methods. Joint training produces the non-stationarity expected from MARL.
-
-## The Agents
-
-The **Investigator** identifies the Fraudster while deciding when to observe, focus, accuse and vote. The **Innocent** provides a non-malicious baseline. The **Fraudster** attempts to avoid detection. The **Trickster** adds another strategically reactive role and is analysed through a historical win-register signal.
+The environment combines partial observability, stochastic financial dynamics, strategic deception and social interaction. Trader roles are not directly exposed to the Investigator, so the investigation depends on the evidence available through the environment.
 
 ## Architecture
 
 ![Architecture](arch.png)
 
-That hopefully summarizes the current state of the architecture. 'Statement' hasn't been actively used in this implementation, it will be in the future versions.
+The diagram summarizes the original implementation. The `Statement` component shown in the architecture has not been actively used in this version and is reserved for future development.
 
-## Results
+### Financial dynamics
 
-### RL: Investigator learning
+The market uses an Ornstein-Uhlenbeck process. In the implementation, the process is advanced with an Euler-style discretization:
+
+$$
+X_{t+\Delta t}
+=
+X_t + \theta(\mu-X_t)\Delta t
++ \sigma\sqrt{\Delta t}\,\varepsilon_t,
+\qquad \varepsilon_t \sim \mathrm{N}(0,1).
+$$
+
+Here, $\mu$ is the long-run mean, $\theta$ controls mean reversion, $\sigma$ controls volatility, and $\Delta t$ is the time step. The noise term is sampled from a standard normal distribution at each step.
+
+### Learning methods
+
+The original implementation compares tabular Q-learning and Monte Carlo for the Investigator. The Q-learning update uses the legal actions available in the next state:
+
+$$
+\begin{aligned}
+y_t &= r_{t+1} + \gamma(1-d_t)
+\max_{a' \in A_{\mathrm{legal}}(s_{t+1})}
+Q(s_{t+1},a'), \\
+Q(s_t,a_t) &\leftarrow Q(s_t,a_t)
++ \alpha\left[y_t-Q(s_t,a_t)\right].
+\end{aligned}
+$$
+
+When an episode terminates, the target is just the observed reward. Monte Carlo instead uses the discounted return from the sampled episode:
+
+$$
+G_t = \sum_{k=0}^{T-t-1}\gamma^k r_{t+k+1}.
+$$
+
+Its action-value estimate is updated using an incremental sample average:
+
+$$
+Q(s_t,a_t) \leftarrow Q(s_t,a_t)
++ \frac{G_t-Q(s_t,a_t)}{N(s_t,a_t)}.
+$$
+
+The implementation also uses legal-action masking, role-specific trader learners, separate market and social action structures, and independent random streams for the environment and learning components.
+
+## Experimental Results: Original Implementation
+
+> **Scope of this section:** All results in this section belong to the original implementation in this repository. They are distinct from the V1 research results reported in the SSRN paper. The V1 paper and its complete run archive are linked in the project-status note above.
+
+### Investigator learning: Q-learning vs Monte Carlo
 
 The first experiment isolates the Investigator and compares **tabular Q-learning** against **Monte Carlo** across increasing training budgets. Each budget was evaluated across three independent seeds.
 
@@ -52,15 +101,15 @@ The first experiment isolates the Investigator and compares **tabular Q-learning
 | 250k | 9.695 | 9.677 | 0.974 | 0.975 | 0.021 | 0.019 |
 | 500k | 9.807 | 9.844 | 0.984 | 0.987 | 0.014 | 0.009 |
 
-Both methods learn the investigation task strongly as training increases. Q-learning has the advantage at the earlier budgets, while Monte Carlo catches up by 500k episodes. Fraudster detection approaches 1.0 for both methods while timeout becomes increasingly rare.
+Both methods improve substantially with training. Q-learning has the advantage at earlier budgets, while Monte Carlo catches up by 500k episodes. Fraudster detection approaches 1.0 for both methods, while timeout becomes increasingly rare.
 
-![RL Reward](figures/rl_reward.png)
+| Investigator reward | Fraudster detection |
+|:--:|:--:|
+| ![RL Reward](figures/rl_reward.png) | ![Fraudster Detection](figures/rl_fraudster_detection.png) |
 
-![Fraudster Detection](figures/rl_fraudster_detection.png)
+### Joint MARL learning
 
-### MARL: Joint learning
-
-The second experiment allows the Investigator and all trader learners to adapt simultaneously. Four training budgets were evaluated using three independent seeds each. Unlike the isolated RL experiment, the opposing agents are changing their policies during training, so the effective environment is non-stationary.
+The second experiment allows the Investigator and the trader learners to adapt simultaneously. Four training budgets were evaluated using three independent seeds each. Unlike the isolated RL experiment, the opposing agents are changing their policies during training, so the effective environment is non-stationary.
 
 | Training episodes | Investigator reward | Fraudster catch | Innocent catch | Trickster catch | Timeout | Episode length |
 |---:|---:|---:|---:|---:|---:|---:|
@@ -69,79 +118,56 @@ The second experiment allows the Investigator and all trader learners to adapt s
 | 250k | -0.082 | 0.252 | 0.166 | 0.178 | 0.404 | 9.726 |
 | 500k | 0.629 | 0.292 | 0.141 | 0.159 | 0.408 | 9.871 |
 
-The Investigator is learning, with its average reward improving substantially over training. However, this does not translate into clean game resolution. Fraudster detection remains low, while timeout rate and episode length increase. The Investigator is therefore learning inside an environment where the other agents are simultaneously adapting.
+The Investigator's average reward improves substantially, but that does not translate into clean game resolution. Fraudster detection remains low, while timeout rate and episode length increase. The Investigator is learning in an environment where the other agents are adapting at the same time.
 
-![MARL Learning Dynamics](multi_figures/multi_learning_curve.png)
+| Joint learning dynamics | Joint outcome composition |
+|:--:|:--:|
+| ![MARL Learning Dynamics](multi_figures/multi_learning_curve.png) | ![MARL Outcome Composition](multi_figures/multi_outcome_composition.png) |
 
-![MARL Outcome Composition](multi_figures/multi_outcome_composition.png)
+### Experimental coverage
 
-| Experiment | Budgets | Seeds |
-|---|---|---:|
-| RL-only | 50k / 100k / 250k / 500k | 3 |
+| Experiment | Training budgets | Independent seeds |
+|:--|:--|--:|
+| Investigator-only RL | 10k / 50k / 100k / 250k / 500k | 3 |
 | Joint MARL | 50k / 100k / 250k / 500k | 3 |
 
-## Key Characteristics
+The complete V1 research run archive is available separately in the [Kaggle dataset](https://www.kaggle.com/datasets/ayushibhattacharya/all-decoy-outputs-v1). Its contents should not be conflated with the original-implementation tables shown above.
 
-- **Information asymmetry:** The agents do not operate with the same information. The Investigator must infer hidden roles from observable financial and social behaviour, while the trader learners operate with their own role-specific information and objectives.
+## Behavioural mechanisms
 
-- **Partial observability:** The Investigator receives noisy and incomplete observations rather than the underlying hidden state.
+The agents do not operate with the same information. The Investigator observes noisy, incomplete evidence and has to infer hidden roles, while the traders act from role-specific objectives without receiving their role as an observation feature. This creates information asymmetry and partial observability by design.
 
-- **Non-stationarity:** During joint training, the trader policies change alongside the Investigator's policy, continuously changing the effective environment.
+Accusations can trigger role-dependent financial and social reactions, so an Investigator action can change the evidence available in later steps. The Investigator must also balance information gathering against committing to an accusation or vote, because its investigation budget is finite.
 
-- **Reactive evidence:** Accusations can trigger financial and social reactions, meaning that an Investigator action can change the evidence available in later steps.
+Trader market actions and social actions are handled separately. Market actions include `NORMAL`, `CONCEAL` and `SIGNAL`; social actions include `NEUTRAL`, `DEFEND`, `ACCUSE` and `SUPPORT`. Each trader role has its own learning behaviour rather than sharing a single policy.
 
-- **Resource-constrained investigation:** The Investigator has a finite budget and must balance information gathering against committing to an accusation or vote.
+Exploration can use an adaptive epsilon schedule, and the Investigator supports an adaptive learning rate. The adaptive-alpha experiment is treated as a diagnostic, not as a guaranteed improvement. The Investigator also uses legal-action masking to prevent invalid actions from being selected. The Trickster maintains a `WinRegister` containing historical outcome information, which informs its later social commitment behaviour.
 
-- **Emergent behaviour:** Market and social strategies are learned through repeated interaction rather than being manually scripted.
+Multi-agent training uses independent random-number-generator streams for the environment, Investigator, market learners and social learners. This supports reproducible component-level randomness without requiring all components to share one stream.
 
-## Additional MARL Features
+## Repository structure
 
-The main architecture describes the environment and learning loop, but several mechanisms are used to make the multi-agent setting more adaptive.
-
-- **Independent role-specific learners:** Each trader role has its own learning behaviour rather than sharing a single policy. The market and social action spaces are handled separately, giving the Innocent, Fraudster and Trickster distinct learning processes.
-
-- **Adaptive exploration:** Epsilon can change during training rather than remaining fixed. This allows agents to move from broader exploration toward more exploitation as training progresses.
-
-- **Adaptive investigator alpha:** The Investigator also supports an adaptive learning rate, allowing the magnitude of Q-value updates to change during training. This was evaluated separately as a diagnostic rather than being presented as a guaranteed performance improvement.
-
-- **Legal-action masking:** The Investigator's available actions are restricted according to the current state, preventing invalid actions from being selected during learning.
-
-- **Role-blind trader observations:** Traders do not receive their role as part of their observation. Their behaviour therefore has to emerge from their role-specific objective and learning process rather than from directly exposing the hidden-role label.
-
-- **Accusation-triggered reactions:** An Investigator accusation does not simply end the interaction. It can produce role-dependent financial and social reactions, creating new evidence for subsequent decisions.
-
-- **Trickster WinRegister:** The Trickster maintains a lightweight history of previous outcomes and uses accumulated and recent win information to estimate which side is currently more likely to win. This influences its later social commitment behaviour.
-
-- **Separate market and social learning:** Trader market actions and social actions are learned through separate action structures. Market actions include `NORMAL`, `CONCEAL` and `SIGNAL`, while social actions include `NEUTRAL`, `DEFEND`, `ACCUSE` and `SUPPORT`.
-
-- **Independent random streams:** Multi-agent training uses separate RNG streams for the environment, Investigator, market learners and social learners. This keeps the components reproducible without forcing them to share one random stream.
-
-
-Together, these mechanisms make the environment more than a fixed-agent RL benchmark. The agents can change how they explore, update their policies, react to accusations and use historical information while interacting with one another.
-
-## Repository
-
-```
+```text
 Decoy/
-│
 ├── README.md
 ├── arch.png
 ├── requirements.txt
 ├── pytest.ini
 ├── LICENSE
+│
 ├── decoy/
-│  ├── agent.py
-│  ├── environment.py
-│  ├── episode.py
-│  ├── monte_carlo.py
-│  ├──  multi_runner.py
-│  ├──  multi_training.py
-│  ├──  ou_process.py
-│  ├──  q_learning.py
-│  ├──  runner.py
-│  ├── toy_env.py
-│  ├──  training.py
-│  ├──  win_register.py
+│   ├── agent.py
+│   ├── environment.py
+│   ├── episode.py
+│   ├── monte_carlo.py
+│   ├── multi_runner.py
+│   ├── multi_training.py
+│   ├── ou_process.py
+│   ├── q_learning.py
+│   ├── runner.py
+│   ├── toy_env.py
+│   ├── training.py
+│   └── win_register.py
 │
 ├── experiments/
 │   ├── compare_rl.py
@@ -151,7 +177,6 @@ Decoy/
 │   ├── train_mc.py
 │   ├── train_multi.py
 │   ├── train_q.py
-│   │
 │   └── analysis/
 │       ├── check_adaptive_alpha.py
 │       ├── plot_multi.py
@@ -159,11 +184,7 @@ Decoy/
 │       ├── run_multi_sweep.py
 │       ├── run_rl_sweep.py
 │       ├── style.py
-│       │
 │       └── results/
-│           ├── multi_summary.csv
-│           ├── rl_learning_curve.csv
-│           └── trickster_register.csv
 │
 ├── tests/
 │   ├── test_environment.py
@@ -177,36 +198,55 @@ Decoy/
 │   └── test_win_register.py
 │
 ├── figures/
-│
-└── multifigures/
+└── multi_figures/
 ```
 
-## Small Literature / Learning Note
+The main implementation lives in `decoy/`. Environment dynamics and episode execution are handled by `environment.py`, `episode.py` and the runner modules. Learning is implemented in `q_learning.py`, `monte_carlo.py`, `training.py` and `multi_training.py`. The experiment and analysis scripts live under `experiments/`.
 
-A few resources I used while building and understanding Decoy:
+## Running the project
 
-- **Reinforcement Learning:** I used the University of Alberta RL material and [RL Theory](https://rltheory.github.io/) to study the foundations behind MDPs, value-based learning, exploration and learning dynamics.
+Install the dependencies from the repository root:
 
-- **Stochastic Processes:** For the financial dynamics, I studied the Ornstein-Uhlenbeck process, particularly its mean-reverting behaviour and stochastic formulation, using [this study guide](https://fiveable.me/stochastic-processes/unit-9/ornstein-uhlenbeck-process/study-guide/A63hHvOtp6DrjQST).
+```bash
+pip install -r requirements.txt
+```
 
-These were learning references for building the environment, not intended as a formal literature review.
+The standalone training entry points are:
 
-## Limitations
+```bash
+python -m experiments.train_q
+python -m experiments.train_mc
+python -m experiments.train_multi
+```
 
-Decoy is deliberately small. The Investigator currently has limited reasoning capacity, the financial dynamics are simplified, and the learning is tabular. The goal is not to solve deception or MARL, but to provide a controlled environment where learning dynamics can be inspected.`multi_learning_curve.csv` couldn't be added since the file is too big.
+For the multi-seed experiment sweeps used by the analysis, run:
 
-## Future Scope
+```bash
+python -m experiments.analysis.run_rl_sweep
+python -m experiments.analysis.run_multi_sweep
+```
 
-The current version deliberately keeps the Investigator relatively simple. The MARL results suggest several natural directions:
+The plotting scripts are available as `experiments/analysis/plot_rl.py` and `experiments/analysis/plot_multi.py`. The tests can be run from the repository root with:
 
-- Give the Investigator a richer state representation and stronger evidence aggregation.
-- Introduce explicit opponent modelling or belief-state reasoning.
-- Study richer communication and social inference.
-- Replace the current lightweight Trickster register with a learned strategic model.
-- Explore stronger MARL approaches such as CTDE and centralized critics.
-- Investigate larger state/action spaces and neural function approximation.
-- Add further fixed-vs-learned and frozen-vs-learned opponent evaluations.
-- Extend the environment with additional roles and more complex financial dynamics.
+```bash
+pytest
+```
+
+## Limitations and ongoing research
+
+This original implementation is deliberately small. The Investigator has limited reasoning capacity, the financial dynamics are simplified, and learning is tabular. The goal is not to solve deception or multi-agent reinforcement learning, but to provide a controlled environment where learning dynamics can be inspected.
+
+The ongoing V2 research explores directions that include richer Investigator state representations and evidence aggregation, explicit opponent modelling and belief-state reasoning, richer communication and social inference, a learned strategic model for the Trickster, stronger MARL approaches such as centralized training with decentralized execution, larger state and action spaces, and additional fixed-versus-learned and frozen-versus-learned opponent evaluations.
+
+## References and learning resources
+
+A few resources used while building and understanding the environment:
+
+- [University of Alberta computing science](https://www.ualberta.ca/en/computing-science/index.html) and [RL Theory](https://rltheory.github.io/) for reinforcement learning foundations.
+- [Ornstein-Uhlenbeck Process study guide](https://fiveable.me/stochastic-processes/unit-9/ornstein-uhlenbeck-process/study-guide/A63hHvOtp6DrjQST) for the mean-reverting stochastic process used in the market dynamics.
+
+These were learning references during development, not a formal literature review.
 
 ## Credits
-ChatGPT for the graph and image designs. 
+
+Graph and image design assistance: ChatGPT.
