@@ -47,6 +47,8 @@ game. Its four agents are the **Investigator**, **Innocent**,
 
 The environment combines partial observability, stochastic financial dynamics, strategic deception and social interaction. Trader roles are not directly exposed to the Investigator, so the investigation depends on the evidence available through the environment.
 
+> [!NOTE]
+> **Research Companion:** For the complete mathematical formulation, Ornstein-Uhlenbeck market parametrization, asymmetric payoff matrices, and 500k-episode empirical benchmarks from the paper, see [**PAPER.md**](./PAPER.md).
 
 ## Architecture
 
