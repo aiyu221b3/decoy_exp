@@ -97,7 +97,7 @@ m(a) = \begin{cases}
 
 ## 3. General-Sum Payoff Structure & Trickster WinRegister
 
-### Terminal Outcome Rewards ($R(o)$)
+### Terminal Outcome Rewards ( $R(o)$ )
 
 An `ACCUSE` action is interactive and non-terminal, whereas `VOTE` commits to a terminal identification. The asymmetric terminal reward functions across roles establish the general-sum structure of the game:
 
