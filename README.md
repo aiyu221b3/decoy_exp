@@ -1,5 +1,17 @@
-Paper: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7345498
-The repo will (is yet to) be updated with the version used in the paper.
+> ## 📌 Repository status
+> This repository holds the **original implementation of Decoy**, the environment and
+> code from the earlier development stage, *before* the write-up of the paper
+> ["Decoy: Multi-Agent Environment for Hidden-Role Strategic Learning"](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7345498).
+>
+> - 📊 **Full experimental results:** the complete run outputs (~12.64 GB uncompressed, covering the
+>   Q-learning / Monte Carlo sweeps and the joint-training experiments) are published as a
+>   Kaggle dataset: **[Decoy Results Dataset](https://www.kaggle.com/datasets/ayushibhattacharya/all-decoy-outputs-v1)**
+> - 🔧 **Rebuild in progress:** I'm currently redesigning Decoy from scratch with an
+>   extended research plan, so the code here is a snapshot rather than the final
+>   codebase. A cleaner, fully reproducible version will replace it.
+>
+> Questions or want to dig into the results? Reach me at aiyu221b3@gmail.com.
+
 # Decoy 
 
 > A compact, interpretable multi-agent reinforcement-learning environment for hidden-role strategic learning under noisy financial observations and socially reactive behaviour.
