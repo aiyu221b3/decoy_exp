@@ -38,27 +38,15 @@ Decoy models this as a small hidden-role financial and social-deduction
 game. Its four agents are the **Investigator**, **Innocent**,
 **Fraudster** and **Trickster**.
 
-  -----------------------------------------------------------------------
-  Agent                               Role in the environment
-  ----------------------------------- -----------------------------------
-  **Investigator**                    Identifies the Fraudster through
-                                      observation, focus, accusation and
-                                      voting.
+| Agent | Role in the environment |
+|:--|:--|
+| **Investigator** | Identifies the Fraudster through observation, focus, accusation and voting. |
+| **Innocent** | Provides a non-malicious trader baseline. |
+| **Fraudster** | Attempts to avoid detection while pursuing its own objective. |
+| **Trickster** | Adds a strategically reactive role with an outcome-history signal. |
 
-  **Innocent**                        Provides a non-malicious trader
-                                      baseline.
+The environment combines partial observability, stochastic financial dynamics, strategic deception and social interaction. Trader roles are not directly exposed to the Investigator, so the investigation depends on the evidence available through the environment.
 
-  **Fraudster**                       Attempts to avoid detection while
-                                      pursuing its own objective.
-
-  **Trickster**                       Adds a strategically reactive role
-                                      with an outcome-history signal.
-  -----------------------------------------------------------------------
-
-The environment combines partial observability, stochastic financial
-dynamics, strategic deception and social interaction. Trader roles are
-not directly exposed to the Investigator, so the investigation depends
-on the evidence available through the environment.
 
 ## Architecture
 
