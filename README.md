@@ -8,7 +8,7 @@
 >   Kaggle dataset: **[Decoy Results Dataset](https://www.kaggle.com/datasets/ayushibhattacharya/all-decoy-outputs-v1)**
 > - 🔧 **Rebuild in progress:** I'm currently redesigning Decoy from scratch with an
 >   extended research plan, so the code here is a snapshot rather than the final
->   codebase. A cleaner, fully reproducible version will replace it.
+>   codebase. A cleaner, fully reproducible version will replace it. However, most of the code here is architecturally same. Just the Kaggle run files are absent.
 >
 > Questions or want to dig into the results? Reach me at aiyu221b3@gmail.com.
 
@@ -36,7 +36,7 @@ The **Investigator** identifies the Fraudster while deciding when to observe, fo
 
 ![Architecture](arch.png)
 
-That hopefully summarizes the current state of the architecture.
+That hopefully summarizes the current state of the architecture. 'Statement' hasn't been actively used in this implementation, it will be in the future versions.
 
 ## Results
 
